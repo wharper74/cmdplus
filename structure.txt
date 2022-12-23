@@ -1,0 +1,11 @@
+build					Build environments
+	linux				Linux build
+	windows				Windows build
+ide						Develop environment
+	msvs				Microsoft Visual Studio
+lib						static library files
+src						source code
+doc						Project Documentation
+
+
+	
