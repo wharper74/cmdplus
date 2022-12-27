@@ -1,10 +1,13 @@
 build					Build environments
-	linux				Linux build
-	windows				Windows build
+	linux				  Linux builds
+	windows			  Windows builds
+cmake         CMake utilities
 ide						Develop environment
-	msvs				Microsoft Visual Studio
-lib						static library files
-src						source code
+	msvs				  Microsoft Visual Studio
+	codeblock			Code Block projects
+src						Source code
+  cmdplus       Library source code
+  test          Library tests source code
 doc						Project Documentation
 
 
