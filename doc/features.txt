@@ -1,0 +1,52 @@
+This library follows the indications of the POSIX utility argument syntax document at https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/contents.html
+with some changes to adhere to modern conventions.
+
+Some rules:
+	-	[ ]	optional content
+	-	{ } mandatory content
+	
+	-	[ operand ... ] zero or one or more operands of the same type
+	-	{ operand ... } one or more operands of the same type
+	-	{a|b}			mandatory choice between "a" or "b" 
+	-	[a|b]			optional choice between "a" or "b" 
+  
+
+Version : major.minor.patch-build
+
+utility_name [ global_options ... ] [ command [ command_options ... ] ] [ extended_options ... ] [ operand ... ]
+
+	global_options  :	^(?:[-](?:[a-zA-Z]|[0-9]+))$
+	command         :	^(?:[a-zA-Z][a-zA-Z0-9]*)$
+	command_options : ^(?:[-][-][a-zA-Z][-a-zA-Z0-9]*(?:[\x3d].+)*)$
+	options 		    : ^(?:[-][-][a-zA-Z][a-zA-Z0-9]*(?:[\x3d].+)*)$
+	
+	
+	
+For an hypotetical database utility, the output is like this
+
+query v1.2.3-9876 
+Queries a database.
+
+Usage : query OPTIONS... COMMANDS... [DATABASE]...
+
+
+GLOBAL OPTIONS
+  -o FILE, --output FILE      Output is written to the specified FILE
+  -u <USER>                   The database user
+  -p <PWD>                    The database user's password
+  -w                          Read Write session. The default is read only
+  -h, --help
+  
+EXTENDED OPTIONS  
+  --output-format=<FORMAT>    The output format: CSV or HTML
+  --select=<SQL>              The query to execute
+  
+COMMANDS
+  oracle              Connect to an oracle database
+    --ip=<IPV4>         The database IP address
+    --port=<PORT>       The database listening port
+   
+  mysql               Connect to a mysql database  
+
+
+query -r -u user -p mypassword oracle --ip=192.168.10.1 --port=8080 --select="select * from dual"  DB1
