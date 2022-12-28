@@ -1,14 +1,34 @@
 This library follows the indications of the POSIX utility argument syntax document at https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/contents.html
 with some changes to adhere to modern conventions.
 
-Some rules:
-	-	[ ]	optional content
-	-	{ } mandatory content
+
+1. User specifies global options , commands and command options.
+2. If an option needs a value or a list of values, the user can enable a format check on those values. 
+3. Commands and options are saved into a context that is available to the application for reading.
+4. Command line commands and options are declared programmatically
+5. The library takes care of printing the command line help
+6. The library takes care of converting the command line values into c++ primitive data types or generic lists.
+
+By default, All options are translated into boolean values; a true value indicates that the option has been used in the command line.
+For options that require a value , the following conversion rules apply:
+  [0-9]+              ---> int
+  [0-9]*[\.][0-9]+    ---> double
+  [a-zA-z0-9]+        ---> string
+  <val>, ... , <val>  ---> list<T>
+  
+The library identifies these resources:
+  - option, an optional or mandatory boolean parameter; other type of parameters are supported.
+  - command, an optional string that indicates which functionality the application needs to run.
+  - operand, one or more targets for the application; for example, an operand can be a file  
+
+When printing the help screen, the library uses these conventions:
+	[ ] optional content
+	{ } mandatory content
 	
-	-	[ operand ... ] zero or one or more operands of the same type
-	-	{ operand ... } one or more operands of the same type
-	-	{a|b}			mandatory choice between "a" or "b" 
-	-	[a|b]			optional choice between "a" or "b" 
+	[ operand ... ] A space separated list of zero, one or more operands of the same type
+	{ operand ... } A space separated list of one or more mandatory operands of the same type
+	{a|b}			      Mandatory choice between "a" or "b" 
+	[a|b]			      Optional choice between "a" or "b" 
   
 
 Version : major.minor.patch-build
@@ -23,12 +43,12 @@ utility_name [ global_options ... ] [ command [ command_options ... ] ] [ extend
 	
 	
 For an hypotetical database utility, the output is like this
-
+# query -h
 query v1.2.3-9876 
 Queries a database.
 
 Usage : query OPTIONS... COMMANDS... [DATABASE]...
-
+Usage : query -{up} -[owh] [oracle|mysql [output-format,select] ] [DATABASE]
 
 GLOBAL OPTIONS
   -o FILE, --output FILE      Output is written to the specified FILE
@@ -49,4 +69,4 @@ COMMANDS
   mysql               Connect to a mysql database  
 
 
-query -r -u user -p mypassword oracle --ip=192.168.10.1 --port=8080 --select="select * from dual"  DB1
+# query -r -u user -p mypassword oracle --ip=192.168.10.1 --port=8080 --select="select * from dual"  DB1
