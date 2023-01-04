@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Code::Block
+*.depend
+*.layout
+*.cbp
+

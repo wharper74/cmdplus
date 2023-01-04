@@ -38,8 +38,15 @@ utility_name [ global_options ... ] [ command [ command_options ... ] ] [ extend
 	global_options  :	^(?:[-](?:[a-zA-Z]|[0-9]+))$
 	command         :	^(?:[a-zA-Z][a-zA-Z0-9]*)$
 	command_options : ^(?:[-][-][a-zA-Z][-a-zA-Z0-9]*(?:[\x3d].+)*)$
-	options 		    : ^(?:[-][-][a-zA-Z][a-zA-Z0-9]*(?:[\x3d].+)*)$
+	options 		    : ^(?:[-][-][a-zA-Z][-a-zA-Z0-9]*(?:[\x3d].+)*)$
 	
+
+Parser:
+  start             := global_options | command | extended_options operands | e
+  global_options    := global_option (global_options | command | extended_options | operands | e)
+  command           := cmd (extended_options | operands | e)
+  extended_options  := extended_option (extended_options | operands | e)
+  operands          := operand (operand | e ) | e
 	
 	
 For an hypotetical database utility, the output is like this
