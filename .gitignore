@@ -35,4 +35,5 @@
 *.depend
 *.layout
 *.cbp
+*.workspace
 

@@ -1,4 +1,5 @@
 #include "version.h"
+#include "element.h"
 
 namespace cmdplus {
   class CommandLine {
