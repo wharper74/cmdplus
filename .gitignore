@@ -27,6 +27,7 @@
 *.lib
 
 # Executables
+build/*
 *.exe
 *.out
 *.app
@@ -37,3 +38,5 @@
 *.cbp
 *.workspace
 
+# Visual Studio
+ide/*

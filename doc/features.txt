@@ -1,43 +1,54 @@
 This library follows the indications of the POSIX utility argument syntax document at https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/contents.html
 with some changes to adhere to modern conventions.
 
+The command line is composed by four elements:
+  1.  Global options; they are specified using the symbol "-"; for example: -e or -A
+  2.  Extended options; they are specified using "--"; for example: --recursive or --Add
+  3.  Commands, an optional value used when the command has multiple functionalities
+  4.  Operands, the command inputs
 
-1. User specifies global options , commands and command options.
-2. If an option needs a value or a list of values, the user can enable a format check on those values. 
-3. Commands and options are saved into a context that is available to the application for reading.
-4. Command line commands and options are declared programmatically
+Through this documentation, the terms option and attribute are equivalent
+
+The library satisfies the following use cases:
+  (a) Global options only         : myscript -A -o
+  (b) Global and extended options : myscript -A --ignore-case
+  (c) Extended options only       : myscript --ignore-case
+  (d) Command                     : myscript -A copy --ignore-case /home/user/source.file /home/user/target
+                                    myscript copy --ignore-caase /home/user/source.file /home/user/target
+                                    myscript -A copy /home/user/source.file /home/user/target
+                                    myscript copy /home/user/source.file /home/user/target
+
+1. If an option needs a value or a list of values, the user can enable a format check on those values. 
+3. All elements are saved into a context that is available to the application for reading.
+4. Commands and options are declared programmatically
 5. The library takes care of printing the command line help
 6. The library takes care of converting the command line values into c++ primitive data types or generic lists.
 
-By default, All options are translated into boolean values; a true value indicates that the option has been used in the command line.
-For options that require a value , the following conversion rules apply:
+Global options are always translated into boolean values; a true value indicates that the option has been used in the command line.
+
+Extended optoins follow these converion rules:
   [0-9]+              ---> int
   [0-9]*[\.][0-9]+    ---> double
   [a-zA-z0-9]+        ---> string
   <val>, ... , <val>  ---> list<T>
   
-The library identifies these resources:
-  - option, an optional or mandatory boolean parameter; other type of parameters are supported.
-  - command, an optional string that indicates which functionality the application needs to run.
-  - operand, one or more targets for the application; for example, an operand can be a file  
 
 When printing the help screen, the library uses these conventions:
-	[ ] optional content
-	{ } mandatory content
+	[ ] optional element
+	{ } mandatory element
 	
-	[ operand ... ] A space separated list of zero, one or more operands of the same type
-	{ operand ... } A space separated list of one or more mandatory operands of the same type
+	[ operand ... ] A space separated list of zero, one or more elements of the same type
+	{ operand ... } A space separated list of one or more mandatory elements of the same type
 	{a|b}			      Mandatory choice between "a" or "b" 
 	[a|b]			      Optional choice between "a" or "b" 
   
 
 Version : major.minor.patch-build
 
-utility_name [ global_options ... ] [ command [ command_options ... ] ] [ extended_options ... ] [ operand ... ]
+utility_name [ global_options ... ] [ command ] [ extended_options ... ] [ operand ... ]
 
 	global_options  :	^(?:[-](?:[a-zA-Z]|[0-9]+))$
-	command         :	^(?:[a-zA-Z][a-zA-Z0-9]*)$
-	command_options : ^(?:[-][-][a-zA-Z][-a-zA-Z0-9]*(?:[\x3d].+)*)$
+	command         :	^(?:[a-zA-Z][a-zA-Z0-9]*)$	
 	options 		    : ^(?:[-][-][a-zA-Z][-a-zA-Z0-9]*(?:[\x3d].+)*)$
 	
 
@@ -48,32 +59,3 @@ Parser:
   extended_options  := extended_option (extended_options | operands | e)
   operands          := operand (operand | e ) | e
 	
-	
-For an hypotetical database utility, the output is like this
-# query -h
-query v1.2.3-9876 
-Queries a database.
-
-Usage : query OPTIONS... COMMANDS... [DATABASE]...
-Usage : query -{up} -[owh] [oracle|mysql [output-format,select] ] [DATABASE]
-
-GLOBAL OPTIONS
-  -o FILE, --output FILE      Output is written to the specified FILE
-  -u <USER>                   The database user
-  -p <PWD>                    The database user's password
-  -w                          Read Write session. The default is read only
-  -h, --help
-  
-EXTENDED OPTIONS  
-  --output-format=<FORMAT>    The output format: CSV or HTML
-  --select=<SQL>              The query to execute
-  
-COMMANDS
-  oracle              Connect to an oracle database
-    --ip=<IPV4>         The database IP address
-    --port=<PORT>       The database listening port
-   
-  mysql               Connect to a mysql database  
-
-
-# query -r -u user -p mypassword oracle --ip=192.168.10.1 --port=8080 --select="select * from dual"  DB1

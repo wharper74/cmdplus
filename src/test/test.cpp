@@ -1,10 +1,12 @@
 #include <iostream>
+#include <iostream>
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
+#include <doctest/doctest.h>
 
 #include "../cmdplus/cmdplus.h"
 
+using namespace std;
 using namespace cmdplus;
 
 enum option_id {
@@ -34,6 +36,7 @@ TEST_SUITE("Command Plus" * doctest::description("Command Plus Test Cases")) {
     };
 
     //clbool.Add( BooleanOption(ID_HELP,"h","help","Shows the help for this command",false));
-
+    
+    //cin.get();
   }
 }
