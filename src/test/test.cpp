@@ -14,29 +14,13 @@ enum option_id {
   ID_RECURSIVE = 2
 };
 
-TEST_SUITE("Command Plus" * doctest::description("Command Plus Test Cases")) {
-  TEST_CASE("Primitives") {
-    Version v(1,2,3,8832);
-    CommandLine cl("MyTest", "John Smith", v );
-    Element<int> e(1,"h","Help",false);
+TEST_SUITE("Functional" * doctest::description("Functional Tests for CommandPlus")) {
+  Program program("MyTest", "Davide Gioia", Version(1, 2, 3, 8832));
 
-    CHECK(cl.getVersion().format() == "1.2.3-8832");
-    CHECK(cl.getAuthor() == "John Smith");
-    CHECK(cl.getApplication() == "MyTest");
+  TEST_CASE("Program class") {
 
-    CHECK(e.isOptional() == false );
-    CHECK(e.isMandatory() == true );
-  }
-
-  TEST_CASE("Testing options") {
-    CommandLine clbool("Boolean tests", "Davide Gioia", Version(1,1,0));
-    char* arguments[] = {
-      (char*)"ciao",
-      (char*)"aa"
-    };
-
-    //clbool.Add( BooleanOption(ID_HELP,"h","help","Shows the help for this command",false));
-    
-    //cin.get();
+    CHECK(program.getVersion().format() == "1.2.3-8832");
+    CHECK(program.getAuthor() == "Davide Gioia");
+    CHECK(program.getSoftwareName() == "MyTest");
   }
 }
