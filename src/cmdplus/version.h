@@ -8,9 +8,9 @@ namespace cmdplus {
    */
   class Version {
   public:
-    Version(int major, int minor, int patch, int build = 0) : _major(major), _minor(minor), _patch(patch), _build(build) {}
-    Version(const Version& source) : _major(source._major), _minor(source._minor), _patch(source._patch), _build(source._build) {}
-    Version(Version&& source) : _major(source._major), _minor(source._minor), _patch(source._patch), _build(source._build) {}
+    Version(int major, int minor, int patch, int build = 0) noexcept : _major(major), _minor(minor), _patch(patch), _build(build) {}
+    Version(const Version& source) noexcept : _major(source._major), _minor(source._minor), _patch(source._patch), _build(source._build) {}
+    Version(Version&& source) noexcept : _major(source._major), _minor(source._minor), _patch(source._patch), _build(source._build) {}
     ~Version() = default;
 
     Version& operator=(const Version&) = delete;
