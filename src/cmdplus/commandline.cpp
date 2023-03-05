@@ -3,7 +3,10 @@
 
 using namespace cmdplus;
 
-
+/*
+* Builds a wrapper for the argc, argv main parameters
+* 
+*/
 CommandLine::CommandLine(int argc, const char* args[]) noexcept {
   if (argc > 0 && args != 0) {
     _args.reserve(argc);
@@ -14,6 +17,11 @@ CommandLine::CommandLine(int argc, const char* args[]) noexcept {
 }
 
 
+/**
+* Gets the parameter that occupies the specified position in the shell command line
+* 
+* @throws std::out_of_range when the "pos" index is outside the command line boundaries
+*/
 const string& CommandLine::at(size_t pos) const {
   if (pos >= 0 && pos < _args.size()) {
     return _args[pos];
