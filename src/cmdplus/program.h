@@ -21,7 +21,7 @@ namespace cmdplus {
     ~Program() = default;
 
     const std::string& getAuthor() const noexcept {return _info._author;}
-    const CommandLine& getCommandLine() { return _command_line; }
+    const CommandLine& getCommandLine() const { return _command_line; }
     const std::string& getSoftwareName() const noexcept { return _info._software; }
     const Version& getVersion() const noexcept {return _version;}
 
